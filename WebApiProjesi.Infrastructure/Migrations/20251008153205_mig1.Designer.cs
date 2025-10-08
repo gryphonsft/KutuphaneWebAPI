@@ -12,7 +12,7 @@ using WebApiProjesi.Infrastructure.Data;
 namespace WebApiProjesi.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251008144640_mig1")]
+    [Migration("20251008153205_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
