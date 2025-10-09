@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WebApiProjesi.Domain.Entities;
@@ -19,6 +20,7 @@ namespace WebApiProjesi.Infrastructure.Repositories
             _context = context;
         }
 
+        //Regionlamalısın
         public async Task<IEnumerable<Book>> GetAllAsync() => await _context.Book.ToListAsync();
         public async Task<Book?> GetByIdAsync(int id) => await _context.Book.FindAsync(id);
         public async Task AddAsync(Book book)
@@ -36,6 +38,12 @@ namespace WebApiProjesi.Infrastructure.Repositories
             {
                 _context.Book.Remove(book);
             }
+        }
+        public async Task <IEnumerable<Book>> FindAsync(Expression<Func<Book, bool>> predicate)
+        {
+            return await _context.Book
+                .Where(predicate)
+                .ToListAsync();
         }
         public async Task SaveChangesAsync()
         {

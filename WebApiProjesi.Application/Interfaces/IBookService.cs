@@ -10,10 +10,12 @@ namespace WebApiProjesi.Application.Interfaces
 {
     public interface IBookService
     {
+        //Regionlamalısın
         Task<IEnumerable<Book>> GetAllBooksAsync();
         Task<BookResponseDto?> GetBookByIdAsync(int id);
         Task AddBookAsync(Book book);
         Task UpdateBookAsync(Book book);
+        Task<IEnumerable<BookResponseDto>> SearchBooksAsync(string keyvalue);
         Task DeleteBookByIdAsync(int id);
     }
 }

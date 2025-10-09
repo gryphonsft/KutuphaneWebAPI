@@ -19,6 +19,7 @@ namespace WebApiProjesi.Controllers
         }
 
         //Bi' ara AutoMapper eklerim. Bu proje için çok gelir.
+        //Regionlamalısın
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -73,6 +74,13 @@ namespace WebApiProjesi.Controllers
         {
             await _bookService.DeleteBookByIdAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(string keyvalue)
+        {
+          var result = await _bookService.SearchBooksAsync(keyvalue);
+            return Ok(result);
         }
     }
 }
