@@ -1,13 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApiProjesi.Application.DTOs.Requests;
+using WebApiProjesi.Application.DTOs.Respones;
 using WebApiProjesi.Application.Interfaces;
 using WebApiProjesi.Domain.Entities;
 
 namespace WebApiProjesi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
@@ -16,18 +17,31 @@ namespace WebApiProjesi.Controllers
         {
             _bookService = bookService;
         }
+
+        //Bi' ara AutoMapper eklerim. Bu proje için çok gelir.
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var books = await _bookService.GetAllBooksAsync();
-            return Ok(books);
+
+            var response = books.Select(b => new BookResponseDto
+            {
+                Title = b.Title,
+                ISBN = b.ISBN,
+                PageCount = b.PageCount,
+                AuthorName = b.AuthorName,
+            }).ToList();
+
+            return Ok(response);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var books = await _bookService.GetBookByIdAsync(id);
+
             if (books == null)
                 return NotFound();
+                
             return Ok(books);
         }
         [HttpPost]
@@ -50,6 +64,7 @@ namespace WebApiProjesi.Controllers
         {
             if (id != book.Id)
                 return BadRequest();
+
             await _bookService.UpdateBookAsync(book);
             return NoContent();
         }
@@ -58,7 +73,6 @@ namespace WebApiProjesi.Controllers
         {
             await _bookService.DeleteBookByIdAsync(id);
             return NoContent();
-
         }
     }
 }

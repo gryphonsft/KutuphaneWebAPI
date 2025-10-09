@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApiProjesi.Application.DTOs.Respones;
 using WebApiProjesi.Application.Interfaces;
 using WebApiProjesi.Domain.Entities;
 using WebApiProjesi.Domain.Interfaces;
@@ -21,9 +22,18 @@ namespace WebApiProjesi.Application.Services
         {
             return await _bookRepository.GetAllAsync();
         }
-        public async Task<Book?> GetBookByIdAsync(int id)
+        public async Task<BookResponseDto?> GetBookByIdAsync(int id)
         {
-            return await _bookRepository.GetByIdAsync(id);
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null)
+                return null;
+            return new BookResponseDto
+                {
+                    Title = book.Title,
+                    ISBN = book.ISBN,
+                    PageCount = book.PageCount,
+                    AuthorName = book.AuthorName,
+                };
         }
         public async Task AddBookAsync(Book book)
         {
