@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApiProjesi.Domain.Entities
 {
-    public enum LogLevel
+    public enum AppLogLevel
     {
         Info,
         Warning,
@@ -17,7 +17,7 @@ namespace WebApiProjesi.Domain.Entities
         public int Id { get; set; }
         public string Action { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
-        public LogLevel Level { get; set; } = LogLevel.Info;
+        public AppLogLevel Level { get; set; } = AppLogLevel.Info;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

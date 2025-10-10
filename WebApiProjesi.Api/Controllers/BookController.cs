@@ -33,7 +33,7 @@ namespace WebApiProjesi.Controllers
                 AuthorName = b.AuthorName,
             }).ToList();
 
-            return Ok(books);
+            return Ok(response);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -53,7 +53,7 @@ namespace WebApiProjesi.Controllers
                 Title = dto.Title,
                 ISBN = dto.ISBN,
                 PageCount = dto.PageCount,
-                AuthorName = dto.AuthorName               
+                AuthorName = dto.AuthorName
             };
             await _bookService.AddBookAsync(book);
             return CreatedAtAction(nameof(Get), new { id = book.Id }, book);

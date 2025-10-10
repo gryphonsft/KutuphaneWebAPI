@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApiProjesi.Application.DTOs.Requests;
 using WebApiProjesi.Application.DTOs.Respones;
 using WebApiProjesi.Application.Interfaces;
 using WebApiProjesi.Domain.Entities;
@@ -13,10 +14,14 @@ namespace WebApiProjesi.Application.Services
     public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
+        private readonly ILogService _logService;
 
-        public BookService(IBookRepository bookRepository)
+
+        public BookService(IBookRepository bookRepository, ILogService loogService)
         {
             _bookRepository = bookRepository;
+            _logService = loogService;
+
         }
 
         #region Crud Operasyonları
@@ -31,17 +36,26 @@ namespace WebApiProjesi.Application.Services
             if (book == null)
                 return null;
             return new BookResponseDto
-                {
-                    Title = book.Title,
-                    ISBN = book.ISBN,
-                    PageCount = book.PageCount,
-                    AuthorName = book.AuthorName,
-                };
+            {
+                Title = book.Title,
+                ISBN = book.ISBN,
+                PageCount = book.PageCount,
+                AuthorName = book.AuthorName,
+            };
         }
-        public async Task AddBookAsync(Book book)
+        public async Task AddBookAsync(Book dto)
         {
+            var book = new Book
+            {
+                Title = dto.Title,
+                ISBN = dto.ISBN,
+                PageCount = dto.PageCount,
+                AuthorName = dto.AuthorName
+            };
             await _bookRepository.AddAsync(book);
             await _bookRepository.SaveChangesAsync();
+
+            await _logService.AddLogsAsync("AddBook", $"Yeni kitap eklendi: {book.Title}", AppLogLevel.Info);
         }
         public async Task<bool> UpdateBookAsync(int id, BookResponseDto dto)
         {
@@ -62,9 +76,19 @@ namespace WebApiProjesi.Application.Services
         }
         public async Task DeleteBookByIdAsync(int id)
         {
+            
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null)
+                throw new Exception("Kitap bulunamadı.");
+
+           
             await _bookRepository.DeleteByIdAsync(id);
             await _bookRepository.SaveChangesAsync();
+
+            
+            await _logService.AddLogsAsync("RemoveBook", $"Kitap silindi: {book.Title}", AppLogLevel.Info);
         }
+
         #endregion
 
         #region Arama Operasyonları
@@ -73,7 +97,7 @@ namespace WebApiProjesi.Application.Services
         {
             if (string.IsNullOrWhiteSpace(keyvalue) || keyvalue.Length <= 3)
                 return Enumerable.Empty<BookResponseDto>();
-          
+
             var books = await _bookRepository.FindAsync(b =>
            !b.IsDeleted &&
            (b.Title.ToLower().Contains(keyvalue) ||
