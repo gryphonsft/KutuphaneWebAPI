@@ -43,14 +43,26 @@ namespace WebApiProjesi.Application.Services
             await _bookRepository.AddAsync(book);
             await _bookRepository.SaveChangesAsync();
         }
-        public async Task UpdateBookAsync(Book book)
+        public async Task<bool> UpdateBookAsync(int id, BookResponseDto dto)
         {
-            await _bookRepository.UpdateAsync(book);
+            var exisBook = await _bookRepository.GetByIdAsync(id);
+
+            if (exisBook == null)
+                return false;
+
+            exisBook.Title = dto.Title;
+            exisBook.ISBN = dto.ISBN;
+            exisBook.PageCount = dto.PageCount;
+            exisBook.AuthorName = dto.AuthorName;
+
+            await _bookRepository.UpdateAsync(exisBook);
             await _bookRepository.SaveChangesAsync();
+
+            return true;
         }
         public async Task DeleteBookByIdAsync(int id)
         {
-            await _bookRepository.GetByIdAsync(id);
+            await _bookRepository.DeleteByIdAsync(id);
             await _bookRepository.SaveChangesAsync();
         }
         #endregion

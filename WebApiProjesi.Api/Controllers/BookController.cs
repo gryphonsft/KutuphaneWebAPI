@@ -33,7 +33,7 @@ namespace WebApiProjesi.Controllers
                 AuthorName = b.AuthorName,
             }).ToList();
 
-            return Ok(response);
+            return Ok(books);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -53,21 +53,20 @@ namespace WebApiProjesi.Controllers
                 Title = dto.Title,
                 ISBN = dto.ISBN,
                 PageCount = dto.PageCount,
-                AuthorName = dto.AuthorName,
-                CreatedDate = DateTime.UtcNow
+                AuthorName = dto.AuthorName               
             };
             await _bookService.AddBookAsync(book);
             return CreatedAtAction(nameof(Get), new { id = book.Id }, book);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Book book)
+        public async Task<IActionResult> Update(int id, [FromBody] BookResponseDto dto)
         {
-            if (id != book.Id)
-                return BadRequest();
+            var request = await _bookService.UpdateBookAsync(id, dto);
 
-            await _bookService.UpdateBookAsync(book);
-            return NoContent();
+            if (!request)
+                return NotFound();
+            return Ok();
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
