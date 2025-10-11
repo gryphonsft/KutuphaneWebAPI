@@ -33,7 +33,7 @@ namespace WebApiProjesi.Controllers
                 AuthorName = b.AuthorName,
             }).ToList();
 
-            return Ok(books);
+            return Ok(response);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -42,23 +42,15 @@ namespace WebApiProjesi.Controllers
 
             if (books == null)
                 return NotFound();
-                
+
             return Ok(books);
         }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateBookRequest dto)
         {
-            var book = new Book
-            {
-                Title = dto.Title,
-                ISBN = dto.ISBN,
-                PageCount = dto.PageCount,
-                AuthorName = dto.AuthorName
-            };
-            await _bookService.AddBookAsync(book);
-            return CreatedAtAction(nameof(Get), new { id = book.Id }, book);
+            await _bookService.AddBookAsync(dto);
+            return Ok("Kitap başarıyla eklendi.");
         }
-
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] BookResponseDto dto)
         {
@@ -66,7 +58,7 @@ namespace WebApiProjesi.Controllers
 
             if (!request)
                 return NotFound();
-            return Ok();
+            return Ok("Güncelleme başarılı");
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -78,7 +70,7 @@ namespace WebApiProjesi.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> Search(string keyvalue)
         {
-          var result = await _bookService.SearchBooksAsync(keyvalue);
+            var result = await _bookService.SearchBooksAsync(keyvalue);
             return Ok(result);
         }
     }

@@ -29,5 +29,6 @@ namespace WebApiProjesi.Api.Controllers
             var logs = await _logService.GetLogsByLevelAsync(level);
             return Ok(logs);
         }
+        
     }
 }
