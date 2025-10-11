@@ -33,7 +33,7 @@ namespace WebApiProjesi.Controllers
                 AuthorName = b.AuthorName,
             }).ToList();
 
-            return Ok(response);
+            return Ok(books);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

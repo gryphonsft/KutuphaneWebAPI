@@ -38,5 +38,13 @@ namespace WebApiProjesi.Application.Services
         {
             return await _logRepository.FindAsync(l => l.Level == level);
         }
+
+        public async Task<IEnumerable<Logs>> SearchLogsAsync(string keyvalue)
+        {
+            if (string.IsNullOrWhiteSpace(keyvalue) || keyvalue.Length <= 3)
+                return Enumerable.Empty<Logs>();
+
+            return 
+        }
     }
 }
