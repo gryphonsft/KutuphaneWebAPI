@@ -15,6 +15,7 @@ namespace WebApiProjesi.Domain.Interfaces
         Task AddAsync(Logs logs);
         Task<IEnumerable<Logs>> GetAllAsync();
         Task<IEnumerable<Logs>> FindAsync(Expression <Func<Logs, bool>> predicate);
+        Task<IEnumerable<Logs>> SearchAsync(string keyvalue);
         Task SaveChangesAsync();
     }
 }

@@ -14,7 +14,7 @@ namespace WebApiProjesi.Application.Interfaces
         //Regionlamalısın
         Task<IEnumerable<Book>> GetAllBooksAsync();
         Task<BookResponseDto?> GetBookByIdAsync(int id);
-        Task AddBookAsync(Book book);
+        Task AddBookAsync(CreateBookRequest bookRequest);
         Task<bool> UpdateBookAsync(int id, BookResponseDto dto);
         Task<IEnumerable<BookResponseDto>> SearchBooksAsync(string keyvalue);
         Task DeleteBookByIdAsync(int id);

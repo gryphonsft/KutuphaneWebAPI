@@ -39,6 +39,22 @@ namespace WebApiProjesi.Infrastructure.Repositories
                 .Where(predicate)
                 .ToListAsync();
         }
+
+        //Loglar arasında aramak yapmak için
+        public async Task<IEnumerable<Logs>> SearchAsync(string keyvalue)
+        {
+            keyvalue = keyvalue.ToLower();
+
+            return await _context.Logs
+                .Where(l =>
+                    l.Action.ToLower().Contains(keyvalue) ||
+                    l.Message.ToLower().Contains(keyvalue) ||
+                    l.Level.ToString().ToLower().Contains(keyvalue) ||
+                    l.CreatedAt.ToString().Contains(keyvalue))
+                .ToListAsync();
+        }
+
+
         //Değişiklikleri kaydeder.
         public async Task SaveChangesAsync()
         {

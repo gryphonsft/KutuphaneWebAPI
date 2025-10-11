@@ -41,10 +41,13 @@ namespace WebApiProjesi.Application.Services
 
         public async Task<IEnumerable<Logs>> SearchLogsAsync(string keyvalue)
         {
-            if (string.IsNullOrWhiteSpace(keyvalue) || keyvalue.Length <= 3)
+            if (string.IsNullOrWhiteSpace(keyvalue) || keyvalue.Length < 3)
                 return Enumerable.Empty<Logs>();
 
-            return 
+            var logs = await _logRepository.SearchAsync(keyvalue);
+
+            return logs.OrderByDescending(l => l.CreatedAt);
         }
+
     }
 }

@@ -12,5 +12,6 @@ namespace WebApiProjesi.Application.Interfaces
         Task AddLogsAsync(string action, string message, AppLogLevel level = AppLogLevel.Info);
         Task<IEnumerable<Logs>> GetAllLogsAsync();
         Task<IEnumerable<Logs>> GetLogsByLevelAsync(AppLogLevel level);
+        Task<IEnumerable<Logs>> SearchLogsAsync(string keyvalue);
     }
 }

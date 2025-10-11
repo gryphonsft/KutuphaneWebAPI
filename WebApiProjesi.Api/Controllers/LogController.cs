@@ -29,6 +29,16 @@ namespace WebApiProjesi.Api.Controllers
             var logs = await _logService.GetLogsByLevelAsync(level);
             return Ok(logs);
         }
+        [HttpGet("Search")]
+        public async Task<IActionResult> Search (string keyvalue)
+        {
+            var result = await _logService.SearchLogsAsync(keyvalue);
+
+            if (!result.Any())
+                return NotFound(new { message = "Eşleşen log kaydı bulunamadı." });
+
+            return Ok(result);
+        }
         
     }
 }

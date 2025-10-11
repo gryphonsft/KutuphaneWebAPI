@@ -43,15 +43,16 @@ namespace WebApiProjesi.Application.Services
                 AuthorName = book.AuthorName,
             };
         }
-        public async Task AddBookAsync(Book dto)
+        public async Task AddBookAsync(CreateBookRequest bookRequest)
         {
             var book = new Book
             {
-                Title = dto.Title,
-                ISBN = dto.ISBN,
-                PageCount = dto.PageCount,
-                AuthorName = dto.AuthorName
+                Title = bookRequest.Title, 
+                ISBN = bookRequest.ISBN,
+                PageCount = bookRequest.PageCount,
+                AuthorName = bookRequest.AuthorName          
             };
+
             await _bookRepository.AddAsync(book);
             await _bookRepository.SaveChangesAsync();
 
