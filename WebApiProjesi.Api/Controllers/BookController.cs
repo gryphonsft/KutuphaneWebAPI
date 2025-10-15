@@ -30,7 +30,7 @@ namespace WebApiProjesi.Controllers
                 Title = b.Title,
                 ISBN = b.ISBN,
                 PageCount = b.PageCount,
-                AuthorName = b.AuthorName,
+                AuthorName = b.AuthorName,  
             }).ToList();
 
             return Ok(response);

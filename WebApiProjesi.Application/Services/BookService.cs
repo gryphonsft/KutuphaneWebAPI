@@ -50,7 +50,7 @@ namespace WebApiProjesi.Application.Services
                 Title = bookRequest.Title, 
                 ISBN = bookRequest.ISBN,
                 PageCount = bookRequest.PageCount,
-                AuthorName = bookRequest.AuthorName          
+                AuthorName = bookRequest.AuthorName,
             };
 
             await _bookRepository.AddAsync(book);
