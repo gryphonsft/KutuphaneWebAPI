@@ -1,14 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApiProjesi.Domain.Entities;
+using WebApiProjesi.Domain.Role;
+using WebApiProjesi.Domain.User;
 
 namespace WebApiProjesi.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions <ApplicationDbContext> options) : base(options)
         {

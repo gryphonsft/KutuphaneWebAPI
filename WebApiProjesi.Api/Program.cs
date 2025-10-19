@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using WebApiProjesi.Application.Interfaces;
 using WebApiProjesi.Application.Services;
 using WebApiProjesi.Domain.Interfaces;
+using WebApiProjesi.Domain.Role;
+using WebApiProjesi.Domain.User;
 using WebApiProjesi.Infrastructure.Data;
 using WebApiProjesi.Infrastructure.Repositories;
 
@@ -16,7 +20,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString,
         x => x.MigrationsAssembly("WebApiProjesi.Infrastructure")));
 
-// DI
+// Identity ayarlarý
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+// Dependency Injection
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
