@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebApiProjesi.Application.DTOs.Requests;
+using WebApiProjesi.Application.Interfaces;
 using WebApiProjesi.Domain.User;
 
 namespace WebApiProjesi.Api.Controllers
@@ -10,50 +11,40 @@ namespace WebApiProjesi.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IAuthService _authService;
 
-        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AuthController(IAuthService authService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _authService = authService;
         }
+
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
-            //Kullanıcıyı bul.
-            var user = await _userManager.FindByNameAsync(dto.Username);
+            var (success, message, userId) = await _authService.LoginAsync(dto);
 
-            if (user == null)
-            {
-                return Unauthorized("Kullanıcı adı yada şifre hatalı");
-            }
+            if (!success)
+                return Unauthorized(message);
 
-            var result = await _userManager.CheckPasswordAsync(user, dto.Password);
-
-            if (!result)
-            {
-                return Unauthorized("Kullanıcı adı yada şifre hatalı");
-            }
-            return Ok(new { message = "Login Başarılı", userId = user.Id });
+            return Ok(new { message, userId });
         }
 
         [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegisterUserDto dto) 
         {
-            var user = new AppUser
-            {
-                UserName = dto.Username,
-                Email = dto.Email,
-                FullName = dto.Email
-            };
+            var (success, message) = await _authService.RegisterAsync(dto);
 
-            var result = await _userManager.CreateAsync(user, dto.Password);
+            if (!success)
+                return Unauthorized(message);
 
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+            return Ok(new { message });
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _authService.GetAllUserAsync();
 
-            return Ok("Kullanıcı başarıyla oluşturuldu");
+            return Ok(result);
 
         }
     }

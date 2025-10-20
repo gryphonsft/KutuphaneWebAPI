@@ -8,7 +8,7 @@ using WebApiProjesi.Domain.Entities;
 namespace WebApiProjesi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
