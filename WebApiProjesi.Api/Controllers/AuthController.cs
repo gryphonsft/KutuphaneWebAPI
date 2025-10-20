@@ -19,7 +19,27 @@ namespace WebApiProjesi.Api.Controllers
             _signInManager = signInManager;
         }
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody]CreateUserDto dto) 
+        public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
+        {
+            //Kullanıcıyı bul.
+            var user = await _userManager.FindByNameAsync(dto.Username);
+
+            if (user == null)
+            {
+                return Unauthorized("Kullanıcı adı yada şifre hatalı");
+            }
+
+            var result = await _userManager.CheckPasswordAsync(user, dto.Password);
+
+            if (!result)
+            {
+                return Unauthorized("Kullanıcı adı yada şifre hatalı");
+            }
+            return Ok(new { message = "Login Başarılı", userId = user.Id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody]RegisterUserDto dto) 
         {
             var user = new AppUser
             {
