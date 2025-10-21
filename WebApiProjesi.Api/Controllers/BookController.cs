@@ -18,20 +18,15 @@ namespace WebApiProjesi.Controllers
             _bookService = bookService;
         }
 
-        //Bi' ara AutoMapper eklerim. Bu proje için çok gelir.
+        //Bi' ara AutoMapper eklerim.
         //Regionlamalısın
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var books = await _bookService.GetAllBooksAsync();
+            var response = await _bookService.GetAllBooksAsync();
 
-            var response = books.Select(b => new BookResponseDto
-            {
-                Title = b.Title,
-                ISBN = b.ISBN,
-                PageCount = b.PageCount,
-                AuthorName = b.AuthorName,  
-            }).ToList();
+            if (response == null)
+                return NotFound();
 
             return Ok(response);
         }

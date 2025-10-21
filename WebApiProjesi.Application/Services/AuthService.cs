@@ -62,9 +62,9 @@ namespace WebApiProjesi.Application.Services
                 .Select(u => new UserDto
                 {
                     Id = u.Id,
-                    UserName = u.UserName,
+                    Username = u.UserName,
                     Email = u.Email,
-                    FullName = u.FullName
+                    Fullname = u.FullName
                 })
                 .ToListAsync();
         }
