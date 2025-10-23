@@ -20,10 +20,23 @@ namespace WebApiProjesi.Infrastructure.Data
 
         public DbSet<Book> Book { get; set; }
         public DbSet<Logs> Logs { get; set; }
+        public DbSet<Borrow> Borrow { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
+
+            builder.Entity<Borrow>()
+                .HasOne(b => b.Book)
+                .WithMany(book => book.Borrows)
+                .HasForeignKey(b => b.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Borrow>()
+                .HasOne(b => b.AppUser)
+                .WithMany(user => user.Borrows)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

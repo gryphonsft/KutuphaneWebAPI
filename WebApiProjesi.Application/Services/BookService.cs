@@ -24,7 +24,7 @@ namespace WebApiProjesi.Application.Services
 
         }
 
-        #region Crud Operasyonlari
+        #region Read servisi
         
         //Asenkron (async) çalışan temel CRUD işlemleri
         public async Task<IEnumerable<BookResponseDto>> GetAllBooksAsync()
@@ -54,6 +54,9 @@ namespace WebApiProjesi.Application.Services
                 AuthorName = book.AuthorName,
             };
         }
+        #endregion
+
+        #region Create servisi
         public async Task AddBookAsync(CreateBookRequest bookRequest)
         {
             var book = new Book
@@ -69,6 +72,9 @@ namespace WebApiProjesi.Application.Services
 
             await _logService.AddLogsAsync("AddBook", $"Yeni kitap eklendi: {book.Title}", AppLogLevel.Info);
         }
+        #endregion
+
+        #region Update servisi
         public async Task<bool> UpdateBookAsync(int id, BookResponseDto dto)
         {
             var exisBook = await _bookRepository.GetByIdAsync(id);
@@ -86,6 +92,9 @@ namespace WebApiProjesi.Application.Services
 
             return true;
         }
+        #endregion
+
+        #region Delete servisi
         public async Task DeleteBookByIdAsync(int id)
         {
 
@@ -100,10 +109,9 @@ namespace WebApiProjesi.Application.Services
 
             await _logService.AddLogsAsync("RemoveBook", $"Kitap silindi: {book.Title}", AppLogLevel.Info);
         }
-
         #endregion
 
-        #region Arama Operasyonları
+        #region Queries servisi
 
         public async Task<IEnumerable<BookResponseDto>> SearchBooksAsync(string keyvalue)
         {

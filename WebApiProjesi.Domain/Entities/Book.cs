@@ -13,5 +13,7 @@ namespace WebApiProjesi.Domain.Entities
         public string ISBN { get; set; } = string.Empty;
         public int PageCount { get; set; }
         public string AuthorName { get; set; } = string.Empty;
+
+        public ICollection<Borrow> Borrows { get; set; }
     }
 }

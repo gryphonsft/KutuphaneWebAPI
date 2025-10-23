@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using WebApiProjesi.Domain.Entities;
 
 namespace WebApiProjesi.Domain.User
 {
@@ -10,5 +11,7 @@ namespace WebApiProjesi.Domain.User
         }
 
         public string FullName { get; set; } = string.Empty;
+
+        public ICollection<Borrow> Borrows { get; set; }
     }
 }

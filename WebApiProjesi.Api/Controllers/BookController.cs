@@ -19,7 +19,6 @@ namespace WebApiProjesi.Controllers
         }
 
         //Bi' ara AutoMapper eklerim.
-        //Regionlamalısın
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

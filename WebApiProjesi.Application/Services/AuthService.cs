@@ -15,7 +15,7 @@ namespace WebApiProjesi.Application.Services
         {
             _userManager = userManager;
         }
-        
+        #region User authentication servisi
         public async Task<(bool Success,string Message, Guid? UserId)> LoginAsync(LoginUserDto dto)
         {
             var user = await _userManager.FindByNameAsync(dto.Username);
@@ -56,6 +56,9 @@ namespace WebApiProjesi.Application.Services
             }
             return (true, "Kullanıcı başarıyla oluşturuldu.");
         }
+        #endregion
+
+        #region Read servisi
         public async Task<List<UserDto>> GetAllUserAsync()
         {
             return await _userManager.Users
@@ -68,5 +71,6 @@ namespace WebApiProjesi.Application.Services
                 })
                 .ToListAsync();
         }
+        #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace WebApiProjesi.Application.Services
         {
             _logRepository = logRepository;
         }
+        #region Create servisi
         public async Task AddLogsAsync(string action, string message, AppLogLevel level = AppLogLevel.Info)
         {
             var log = new Logs
@@ -30,10 +31,16 @@ namespace WebApiProjesi.Application.Services
             await _logRepository.AddAsync(log);
             await _logRepository.SaveChangesAsync();
         }
+        #endregion
+
+        #region Read servisi
         public async Task<IEnumerable<Logs>> GetAllLogsAsync()
         {
             return await _logRepository.GetAllAsync();
         }
+        #endregion
+
+        #region Queries servisi
         public async Task<IEnumerable<Logs>> GetLogsByLevelAsync (AppLogLevel level)
         {
             return await _logRepository.FindAsync(l => l.Level == level);
@@ -48,6 +55,6 @@ namespace WebApiProjesi.Application.Services
 
             return logs.OrderByDescending(l => l.CreatedAt);
         }
-
+        #endregion
     }
 }

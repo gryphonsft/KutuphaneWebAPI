@@ -9,9 +9,17 @@ namespace WebApiProjesi.Application.Interfaces
 {
     public interface ILogService
     {
+        #region Create servisi
         Task AddLogsAsync(string action, string message, AppLogLevel level = AppLogLevel.Info);
+        #endregion
+
+        #region Read servisi
         Task<IEnumerable<Logs>> GetAllLogsAsync();
+        #endregion
+
+        #region Queries servisi
         Task<IEnumerable<Logs>> GetLogsByLevelAsync(AppLogLevel level);
         Task<IEnumerable<Logs>> SearchLogsAsync(string keyvalue);
+        #endregion
     }
 }

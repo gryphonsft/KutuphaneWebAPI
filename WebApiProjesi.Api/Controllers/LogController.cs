@@ -17,18 +17,23 @@ namespace WebApiProjesi.Api.Controllers
             _logService = logService;
         }
 
+        #region Read servisi
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var logs = await _logService.GetAllLogsAsync();
             return Ok(logs);
         }
+        #endregion
+
+        #region Queries servisi
         [HttpGet("level/{level}")]
         public async Task<IActionResult> GetByLevel(AppLogLevel level)
         {
             var logs = await _logService.GetLogsByLevelAsync(level);
             return Ok(logs);
         }
+  
         [HttpGet("Search")]
         public async Task<IActionResult> Search (string keyvalue)
         {
@@ -39,6 +44,6 @@ namespace WebApiProjesi.Api.Controllers
 
             return Ok(result);
         }
-        
+        #endregion
     }
 }
