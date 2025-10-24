@@ -14,6 +14,6 @@ namespace WebApiProjesi.Domain.Entities
         public int PageCount { get; set; }
         public string AuthorName { get; set; } = string.Empty;
 
-        public ICollection<Borrow> Borrows { get; set; }
+        public ICollection<BookCopy> BookCopies { get; set; }
     }
 }

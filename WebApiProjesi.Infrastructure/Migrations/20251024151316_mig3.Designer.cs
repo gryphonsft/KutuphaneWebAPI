@@ -12,8 +12,8 @@ using WebApiProjesi.Infrastructure.Data;
 namespace WebApiProjesi.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251020110142_mig1")]
-    partial class mig1
+    [Migration("20251024151316_mig3")]
+    partial class mig3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,6 +164,64 @@ namespace WebApiProjesi.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Book");
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.BookCopy", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookCopy");
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.Borrow", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookCopyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("BorrowDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookCopyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Borrow");
                 });
 
             modelBuilder.Entity("WebApiProjesi.Domain.Entities.Logs", b =>
@@ -344,6 +402,51 @@ namespace WebApiProjesi.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.BookCopy", b =>
+                {
+                    b.HasOne("WebApiProjesi.Domain.Entities.Book", "Book")
+                        .WithMany("BookCopies")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.Borrow", b =>
+                {
+                    b.HasOne("WebApiProjesi.Domain.Entities.BookCopy", "BookCopy")
+                        .WithMany("Borrows")
+                        .HasForeignKey("BookCopyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebApiProjesi.Domain.User.AppUser", "AppUser")
+                        .WithMany("Borrows")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("BookCopy");
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.Book", b =>
+                {
+                    b.Navigation("BookCopies");
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.BookCopy", b =>
+                {
+                    b.Navigation("Borrows");
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.User.AppUser", b =>
+                {
+                    b.Navigation("Borrows");
                 });
 #pragma warning restore 612, 618
         }

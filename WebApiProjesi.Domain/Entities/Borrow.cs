@@ -9,10 +9,10 @@ namespace WebApiProjesi.Domain.Entities
 {
     public sealed class Borrow
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public Guid BookId { get; set; }
-        public Book Book { get; set; }
+        public Guid BookCopyId { get; set; }
+        public BookCopy BookCopy { get; set; }
 
         public Guid UserId { get; set; }
         public AppUser AppUser { get; set; }

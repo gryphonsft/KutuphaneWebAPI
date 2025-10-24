@@ -18,7 +18,7 @@ namespace WebApiProjesi.Application.Services
             _logRepository = logRepository;
         }
         #region Create servisi
-        public async Task AddLogsAsync(string action, string message, AppLogLevel level = AppLogLevel.Info)
+        public async Task AddLogsAsync(string action, string message, AppLogLevel level = AppLogLevel.Bilgi)
         {
             var log = new Logs
             {

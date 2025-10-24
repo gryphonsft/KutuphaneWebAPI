@@ -163,15 +163,44 @@ namespace WebApiProjesi.Infrastructure.Migrations
                     b.ToTable("Book");
                 });
 
-            modelBuilder.Entity("WebApiProjesi.Domain.Entities.Borrow", b =>
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.BookCopy", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookCopy");
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.Borrow", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookCopyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BorrowDate")
@@ -185,7 +214,7 @@ namespace WebApiProjesi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("BookCopyId");
 
                     b.HasIndex("UserId");
 
@@ -372,11 +401,22 @@ namespace WebApiProjesi.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApiProjesi.Domain.Entities.Borrow", b =>
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.BookCopy", b =>
                 {
                     b.HasOne("WebApiProjesi.Domain.Entities.Book", "Book")
-                        .WithMany("Borrows")
+                        .WithMany("BookCopies")
                         .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.Borrow", b =>
+                {
+                    b.HasOne("WebApiProjesi.Domain.Entities.BookCopy", "BookCopy")
+                        .WithMany("Borrows")
+                        .HasForeignKey("BookCopyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -388,10 +428,15 @@ namespace WebApiProjesi.Infrastructure.Migrations
 
                     b.Navigation("AppUser");
 
-                    b.Navigation("Book");
+                    b.Navigation("BookCopy");
                 });
 
             modelBuilder.Entity("WebApiProjesi.Domain.Entities.Book", b =>
+                {
+                    b.Navigation("BookCopies");
+                });
+
+            modelBuilder.Entity("WebApiProjesi.Domain.Entities.BookCopy", b =>
                 {
                     b.Navigation("Borrows");
                 });

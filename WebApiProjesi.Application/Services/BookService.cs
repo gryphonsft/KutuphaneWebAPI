@@ -70,7 +70,7 @@ namespace WebApiProjesi.Application.Services
             await _bookRepository.AddAsync(book);
             await _bookRepository.SaveChangesAsync();
 
-            await _logService.AddLogsAsync("AddBook", $"Yeni kitap eklendi: {book.Title}", AppLogLevel.Info);
+            await _logService.AddLogsAsync("AddBook", $"Yeni kitap eklendi: {book.Title}", AppLogLevel.Bilgi);
         }
         #endregion
 
@@ -107,7 +107,7 @@ namespace WebApiProjesi.Application.Services
             await _bookRepository.SaveChangesAsync();
 
 
-            await _logService.AddLogsAsync("RemoveBook", $"Kitap silindi: {book.Title}", AppLogLevel.Info);
+            await _logService.AddLogsAsync("RemoveBook", $"Kitap silindi: {book.Title}", AppLogLevel.Bilgi);
         }
         #endregion
 

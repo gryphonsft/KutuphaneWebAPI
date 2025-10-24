@@ -19,17 +19,25 @@ namespace WebApiProjesi.Infrastructure.Data
         }
 
         public DbSet<Book> Book { get; set; }
-        public DbSet<Logs> Logs { get; set; }
+        public DbSet<BookCopy> BookCopy { get; set; }
         public DbSet<Borrow> Borrow { get; set; }
+        public DbSet<Logs> Logs { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<BookCopy>()
+            .HasOne(bc => bc.Book)
+            .WithMany(b => b.BookCopies)
+            .HasForeignKey(bc => bc.BookId)
+            .OnDelete(DeleteBehavior.Cascade);  
+
             builder.Entity<Borrow>()
-                .HasOne(b => b.Book)
+                .HasOne(b => b.BookCopy)
                 .WithMany(book => book.Borrows)
-                .HasForeignKey(b => b.BookId)
+                .HasForeignKey(b => b.BookCopyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Borrow>()

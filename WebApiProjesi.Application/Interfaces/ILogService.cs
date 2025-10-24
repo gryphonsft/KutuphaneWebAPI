@@ -10,7 +10,7 @@ namespace WebApiProjesi.Application.Interfaces
     public interface ILogService
     {
         #region Create servisi
-        Task AddLogsAsync(string action, string message, AppLogLevel level = AppLogLevel.Info);
+        Task AddLogsAsync(string action, string message, AppLogLevel level = AppLogLevel.Bilgi);
         #endregion
 
         #region Read servisi

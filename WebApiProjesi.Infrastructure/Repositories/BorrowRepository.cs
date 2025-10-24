@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApiProjesi.Domain.Entities;
 using WebApiProjesi.Domain.Interfaces;
 using WebApiProjesi.Infrastructure.Data;
 
@@ -16,6 +18,9 @@ namespace WebApiProjesi.Infrastructure.Repositories
         {
             _context = context;
         }
-        public 
+
+        public async Task<IEnumerable<Borrow>> GetAllAsync() => await _context.Borrow.ToListAsync();
+        
+        
     }
 }
