@@ -32,21 +32,18 @@ namespace WebApiProjesi.Infrastructure.Repositories
         }
         public async Task DeleteByIdAsync(int id)
         {
-            var borrow = await GetByIdAsync(id); 
+            var borrow = await GetByIdAsync(id);
 
-            if(borrow != null)
+            if (borrow != null)
             {
                 _context.Borrow.Remove(borrow);
             }
-
         }
-        public async Task <IEnumerable<Borrow>> FindAsync(Expression<Func<Borrow, bool>> predicate)
+        public async Task<IEnumerable<Borrow>> FindAsync(Expression<Func<Borrow, bool>> predicate)
         {
             return await _context.Borrow
                 .Where(predicate)
                 .ToListAsync();
         }
-        
-
     }
 }
