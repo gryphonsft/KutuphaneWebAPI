@@ -39,8 +39,9 @@ builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 
-// Controllers
-builder.Services.AddControllers();
+// Controllers ve tabiki partial update
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(); 
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
