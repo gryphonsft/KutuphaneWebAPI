@@ -22,7 +22,7 @@ namespace WebApiProjesi.Application.Services
 
             if (user == null)
             {
-                return (false,"Kullanıcı adı yada şifre hatalı",null);
+                return (false,"Böyle bir kullanıcı bulunamadı",null);
             }
             var result = await _userManager.CheckPasswordAsync(user, dto.Password);
 

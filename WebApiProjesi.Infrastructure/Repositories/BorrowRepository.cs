@@ -20,7 +20,12 @@ namespace WebApiProjesi.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Borrow>> GetAllAsync(CancellationToken cancellationToken) => await _context.Borrow.ToListAsync();
+        public async Task<IEnumerable<Borrow>> GetAllAsync(CancellationToken cancellationToken) =>
+            await _context.Borrow
+            .Include(b => b.BookCopy)
+                .ThenInclude(bc => bc.Book)
+            .Include(b => b.AppUser)
+            .ToListAsync(cancellationToken);
         public async Task<Borrow?> GetByIdAsync(int id) => await _context.Borrow.FindAsync(id);
         public async Task AddAsync(Borrow borrow)
         {
