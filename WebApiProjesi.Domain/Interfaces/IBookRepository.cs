@@ -12,7 +12,7 @@ namespace WebApiProjesi.Domain.Interfaces
     {
         //Regionlamalısın
         Task<IEnumerable<Book>> GetAllAsync();
-        Task<Book?> GetByIdAsync(int id);
+        Task<Book?> GetByIdAsync(Guid id);
         Task AddAsync(Book book);
         Task UpdateAsync(Book book);
         Task DeleteByIdAsync(int id);

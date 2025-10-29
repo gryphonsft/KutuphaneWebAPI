@@ -22,7 +22,12 @@ namespace WebApiProjesi.Infrastructure.Repositories
 
         //Regionlamalısın
         public async Task<IEnumerable<Book>> GetAllAsync() => await _context.Book.ToListAsync();
-        public async Task<Book?> GetByIdAsync(int id) => await _context.Book.FindAsync(id);
+        public async Task<Book?> GetByIdAsync(Guid id)
+        {
+            return await _context.Book
+                .Include(b => b.BookCopies)  
+                .FirstOrDefaultAsync(b => b.Id == id);
+        }
         public async Task AddAsync(Book book)
         {
             await _context.Book.AddAsync(book);
