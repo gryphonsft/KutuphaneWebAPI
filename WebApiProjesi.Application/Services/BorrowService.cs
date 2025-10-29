@@ -14,9 +14,9 @@ namespace WebApiProjesi.Application.Services
             _borrowRepository = borrowRepository;
             _logRepository = logRepository;
         }
-        public async Task<IEnumerable<BorrowResponseDto>> GetAllBorrowAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<BorrowResponseDto>> GetAllBorrowAsync()
         {
-            var borrow = await _borrowRepository.GetAllAsync(cancellationToken);
+            var borrow = await _borrowRepository.GetAllAsync();
 
             var result = borrow.Select(b => new BorrowResponseDto
             {

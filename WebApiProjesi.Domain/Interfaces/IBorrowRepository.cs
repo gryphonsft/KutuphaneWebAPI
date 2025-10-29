@@ -10,7 +10,7 @@ namespace WebApiProjesi.Domain.Interfaces
 {
     public interface IBorrowRepository
     {
-        Task<IEnumerable<Borrow>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<Borrow>> GetAllAsync();
         Task<Borrow?> GetByIdAsync(int id);
         Task AddAsync(Borrow borrow);
         Task Update(Borrow borrow);

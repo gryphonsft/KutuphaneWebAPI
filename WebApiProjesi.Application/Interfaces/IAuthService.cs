@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebApiProjesi.Application.DTOs.Requests;
+﻿using WebApiProjesi.Application.DTOs.Requests;
 using WebApiProjesi.Application.DTOs.Respones;
 
 namespace WebApiProjesi.Application.Interfaces

@@ -23,7 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Identity ayarlarý
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
-    options.Password.RequiredLength = 6;
+    options.Password.RequiredLength = 3;
     options.Password.RequireDigit = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
@@ -37,6 +37,7 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IBorrowService, BorrowService>();
 
 
 // Controllers ve tabiki partial update

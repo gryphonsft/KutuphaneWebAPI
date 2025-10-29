@@ -28,7 +28,7 @@ namespace WebApiProjesi.Application.Services
 
             if (!result)
             {
-                return (false, "Kullanıcı adı yada şifre hatalı", null);
+                return (false,"Kullanıcı adı yada şifre hatalı", null);
             }
 
             return (true, "Giris basarili", user.Id);
@@ -36,7 +36,7 @@ namespace WebApiProjesi.Application.Services
 
         public async Task<(bool Success, string Message)> RegisterAsync(RegisterUserDto dto)
         {
-            var existingUser = _userManager.FindByNameAsync(dto.Username);
+            var existingUser = await _userManager.FindByNameAsync(dto.Username);
             if (existingUser != null)
                 return (false, "Bu kullanıcı adı zaten alınmış");
 
