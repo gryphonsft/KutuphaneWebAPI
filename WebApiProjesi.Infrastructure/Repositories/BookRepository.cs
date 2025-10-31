@@ -36,7 +36,7 @@ namespace WebApiProjesi.Infrastructure.Repositories
         {
             _context.Book.Update(book);
         }
-        public async Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(Guid id)
         {
             var book = await GetByIdAsync(id);
             if (book != null)

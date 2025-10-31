@@ -11,10 +11,10 @@ namespace WebApiProjesi.Domain.Interfaces
     public interface IBorrowRepository
     {
         Task<IEnumerable<Borrow>> GetAllAsync();
-        Task<Borrow?> GetByIdAsync(int id);
+        Task<Borrow?> GetByIdAsync(Guid id);
         Task AddAsync(Borrow borrow);
         Task Update(Borrow borrow);
-        Task DeleteByIdAsync(int id);
+        Task DeleteByIdAsync(Guid id);
         Task<IEnumerable<Borrow>> FindAsync(Expression<Func<Borrow, bool>> predicate);
     }
 }

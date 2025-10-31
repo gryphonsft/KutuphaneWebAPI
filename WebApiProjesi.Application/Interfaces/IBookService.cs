@@ -13,7 +13,7 @@ namespace WebApiProjesi.Application.Interfaces
     {
         #region Read servisi
         Task<IEnumerable<BookResponseDto>> GetAllBooksAsync();
-        Task<BookResponseDto?> GetBookByIdAsync(int id);
+        Task<BookResponseDto?> GetBookByIdAsync(Guid id);
         #endregion
 
         #region Create servisi
@@ -21,11 +21,11 @@ namespace WebApiProjesi.Application.Interfaces
         #endregion
 
         #region Update servisi
-        Task<bool> UpdateBookAsync(int id, BookResponseDto dto);
+        Task<bool> UpdateBookAsync(Guid id, BookResponseDto dto);
         #endregion
 
         #region Delete servisi
-        Task DeleteBookByIdAsync(int id);
+        Task DeleteBookByIdAsync(Guid id);
         #endregion
 
         #region Queries servisi

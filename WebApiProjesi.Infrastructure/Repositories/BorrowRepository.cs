@@ -26,7 +26,7 @@ namespace WebApiProjesi.Infrastructure.Repositories
                 .ThenInclude(bc => bc.Book)
             .Include(b => b.AppUser)
             .ToListAsync();
-        public async Task<Borrow?> GetByIdAsync(int id) => await _context.Borrow.FindAsync(id);
+        public async Task<Borrow?> GetByIdAsync(Guid id) => await _context.Borrow.FindAsync(id);
         public async Task AddAsync(Borrow borrow)
         {
             await _context.AddAsync(borrow);
@@ -35,7 +35,7 @@ namespace WebApiProjesi.Infrastructure.Repositories
         {
             _context.Update(borrow);
         }
-        public async Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(Guid id)
         {
             var borrow = await GetByIdAsync(id);
 

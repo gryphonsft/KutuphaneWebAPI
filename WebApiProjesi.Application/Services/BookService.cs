@@ -41,7 +41,7 @@ namespace WebApiProjesi.Application.Services
 
             return response;
         }
-        public async Task<BookResponseDto?> GetBookByIdAsync(int id)
+        public async Task<BookResponseDto?> GetBookByIdAsync(Guid id)
         {
             var book = await _bookRepository.GetByIdAsync(id);
             if (book == null)
@@ -75,7 +75,7 @@ namespace WebApiProjesi.Application.Services
         #endregion
 
         #region Update servisi
-        public async Task<bool> UpdateBookAsync(int id, BookResponseDto dto)
+        public async Task<bool> UpdateBookAsync(Guid id, BookResponseDto dto)
         {
             var exisBook = await _bookRepository.GetByIdAsync(id);
 
@@ -95,7 +95,7 @@ namespace WebApiProjesi.Application.Services
         #endregion
 
         #region Delete servisi
-        public async Task DeleteBookByIdAsync(int id)
+        public async Task DeleteBookByIdAsync(Guid id)
         {
 
             var book = await _bookRepository.GetByIdAsync(id);
@@ -112,7 +112,6 @@ namespace WebApiProjesi.Application.Services
         #endregion
 
         #region Queries servisi
-
         public async Task<IEnumerable<BookResponseDto>> SearchBooksAsync(string keyvalue)
         {
             if (string.IsNullOrWhiteSpace(keyvalue) || keyvalue.Length <= 3)
