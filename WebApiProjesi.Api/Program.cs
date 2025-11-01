@@ -7,6 +7,7 @@ using WebApiProjesi.Domain.Interfaces;
 using WebApiProjesi.Domain.Role;
 using WebApiProjesi.Domain.User;
 using WebApiProjesi.Infrastructure.Data;
+using WebApiProjesi.Infrastructure.Persistence;
 using WebApiProjesi.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,14 +32,20 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-// Dependency Injection
+//UnitOfWork DI kaydý
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Repository için DI kaydý
 builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
+builder.Services.AddScoped<IBookCopyRepository,BookCopyRepository >();
+builder.Services.AddScoped<IBorrowRepository,BorrowRepository >();
+
+// Service için DI kaydý
+builder.Services.AddScoped<IBorrowService, BorrowService>();
+builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IBorrowService, BorrowService>();
-
 
 // Controllers ve tabiki partial update
 builder.Services.AddControllers()

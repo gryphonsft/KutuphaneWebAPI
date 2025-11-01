@@ -19,5 +19,9 @@ namespace WebApiProjesi.Infrastructure.Repositories
         }
 
         public async Task<BookCopy?> GetByIdAsync(Guid id) => await _context.BookCopy.FindAsync(id);
+        public async Task Update(BookCopy bookCopy)
+        {
+             _context.Update(bookCopy);
+        }
     }
 }

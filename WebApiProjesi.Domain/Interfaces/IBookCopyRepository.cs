@@ -10,5 +10,6 @@ namespace WebApiProjesi.Domain.Interfaces
     public interface IBookCopyRepository
     {
         Task<BookCopy?> GetByIdAsync(Guid id);
+        Task Update(BookCopy bookCopy);
     }
 }

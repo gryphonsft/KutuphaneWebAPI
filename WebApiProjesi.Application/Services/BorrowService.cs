@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using WebApiProjesi.Application.DTOs.Requests;
 using WebApiProjesi.Application.DTOs.Respones;
 using WebApiProjesi.Application.Interfaces;
+using WebApiProjesi.Domain.Entities;
 using WebApiProjesi.Domain.Interfaces;
+using WebApiProjesi.Domain.User;
 
 namespace WebApiProjesi.Application.Services
 {
@@ -10,12 +13,22 @@ namespace WebApiProjesi.Application.Services
         private readonly IBorrowRepository _borrowRepository;
         private readonly ILogRepository _logRepository;
         private readonly IBookRepository _bookRepository;
+        private readonly IBookCopyRepository _bookCopyRepository;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BorrowService(IBorrowRepository borrowRepository,ILogRepository logRepository,IBookRepository bookRepository)
+        public BorrowService(IBorrowRepository borrowRepository,
+            ILogRepository logRepository,IBookRepository bookRepository,
+            IBookCopyRepository bookCopyRepository,
+            UserManager<AppUser> userManager,
+            IUnitOfWork unitOfWork)
         {
             _borrowRepository = borrowRepository;
             _logRepository = logRepository;
             _bookRepository = bookRepository;
+            _bookCopyRepository = bookCopyRepository;
+            _userManager = userManager;
+            _unitOfWork = unitOfWork;
         }
         public async Task<IEnumerable<BorrowResponseDto>> GetAllBorrowAsync()
         {
@@ -40,14 +53,45 @@ namespace WebApiProjesi.Application.Services
 
         public async Task<CreateBorrowRequest> CreateBorrowAsync(CreateBorrowRequest request)
         {
-            //Buraya BookRepository baðlý fakat BorrowService için BookCopyRepository ile veri alýþveriþi saðlanmalý.
-            //Bir BookCopyRepository olustur ve GetByIdAsync methodunu buradan saðla.
-            var copyBook = await _bookRepository.GetByIdAsync(request.CopyBookId);
+            // Kitap kontrolu icin
+            var copyBook = await _bookCopyRepository.GetByIdAsync(request.CopyBookId);
 
             if (copyBook == null)
-                throw new Exception("Kitap kopyasý bulunamadý");
+            {
+                throw new Exception("Kitap dosyasi bulunamadi");
+            }
+                
 
-          //  if(copyBook.Status)
+            if (copyBook.Status != BookStatus.Musait)
+            {
+                throw new Exception("Kitap suan musait degil");
+            }
+            //Kullanici kontrolu icin
+            var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+
+            if (user == null)
+            {
+                throw new Exception($"ID'si {request.UserId} olan kullanici bulunamadi");
+            }
+
+            var borrow = new Borrow
+            {
+                Id = Guid.NewGuid(),
+                BookCopyId = request.CopyBookId,
+                UserId = request.UserId,
+                BorrowDate = DateTime.Now,
+                ReturnDate = null
+            };
+
+            await _borrowRepository.AddAsync(borrow);
+
+            copyBook.Status = BookStatus.Oduncte;
+            await _bookCopyRepository.Update(copyBook);
+
+            await _unitOfWork.SaveChangesAsync();
+
+            var response 
+
         }
     }
 }
