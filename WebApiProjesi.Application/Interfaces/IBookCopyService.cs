@@ -8,6 +8,6 @@ namespace WebApiProjesi.Application.Interfaces
 {
     public interface IBookCopyService
     {
-        Task AddBookCopiesAsync(Guid bookId, Guid numberOfCopies);
+        Task AddBookCopiesAsync(Guid bookId, int numberOfCopies);
     }
 }
