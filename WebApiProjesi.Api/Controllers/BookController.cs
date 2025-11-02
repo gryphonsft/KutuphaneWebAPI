@@ -30,7 +30,7 @@ namespace WebApiProjesi.Controllers
             return Ok(response);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var books = await _bookService.GetBookByIdAsync(id);
 
@@ -46,7 +46,7 @@ namespace WebApiProjesi.Controllers
             return Ok("Kitap başarıyla eklendi.");
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] BookResponseDto dto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] BookResponseDto dto)
         {
             var request = await _bookService.UpdateBookAsync(id, dto);
 
@@ -55,7 +55,7 @@ namespace WebApiProjesi.Controllers
             return Ok("Güncelleme başarılı");
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _bookService.DeleteBookByIdAsync(id);
             return NoContent();
