@@ -18,7 +18,7 @@ namespace WebApiProjesi.Application.Services
         private readonly IUnitOfWork _unitOfWork;
 
         public BorrowService(IBorrowRepository borrowRepository,
-            ILogRepository logRepository,IBookRepository bookRepository,
+            ILogRepository logRepository, IBookRepository bookRepository,
             IBookCopyRepository bookCopyRepository,
             UserManager<AppUser> userManager,
             IUnitOfWork unitOfWork)
@@ -51,7 +51,10 @@ namespace WebApiProjesi.Application.Services
             return result;
         }
 
-        public async Task<CreateBorrowRequest> CreateBorrowAsync(CreateBorrowRequest request)
+        //GetBorrowByIdAsync eklenecek
+
+        //En sona log için servis başvurusu.
+        public async Task<BorrowResponseDto> CreateBorrowAsync(CreateBorrowRequest request)
         {
             // Kitap kontrolu icin
             var copyBook = await _bookCopyRepository.GetByIdAsync(request.CopyBookId);
@@ -60,7 +63,7 @@ namespace WebApiProjesi.Application.Services
             {
                 throw new Exception("Kitap dosyasi bulunamadi");
             }
-                
+
 
             if (copyBook.Status != BookStatus.Musait)
             {
@@ -90,8 +93,19 @@ namespace WebApiProjesi.Application.Services
 
             await _unitOfWork.SaveChangesAsync();
 
-            var response 
-
+            var response = new BorrowResponseDto
+            {
+                BorrowId = borrow.Id,
+                ISBN = copyBook.Book.ISBN,
+                BookTitle = copyBook.Book.Title,
+                AuthorName = copyBook.Book.AuthorName,
+                CopyBookId = copyBook.Id,
+                Username = user.UserName ?? string.Empty,
+                FullName = user.FullName,
+                BorrowDate = borrow.BorrowDate,
+                ReturnDate = borrow.ReturnDate
+            };
+            return response;
         }
     }
 }

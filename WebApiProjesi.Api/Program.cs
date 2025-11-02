@@ -21,7 +21,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString,
         x => x.MigrationsAssembly("WebApiProjesi.Infrastructure")));
 
-// Identity ayarlarý
+// Identity ayarlarï¿½
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
     options.Password.RequiredLength = 3;
@@ -32,20 +32,21 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-//UnitOfWork DI kaydý
+//UnitOfWork DI kaydï¿½
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Repository için DI kaydý
+// Repository iï¿½in DI kaydï¿½
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
 builder.Services.AddScoped<IBookCopyRepository,BookCopyRepository >();
 builder.Services.AddScoped<IBorrowRepository,BorrowRepository >();
 
-// Service için DI kaydý
+// Service iï¿½in DI kaydï¿½
 builder.Services.AddScoped<IBorrowService, BorrowService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IBookCopyService, BookCopyService>();
 
 // Controllers ve tabiki partial update
 builder.Services.AddControllers()

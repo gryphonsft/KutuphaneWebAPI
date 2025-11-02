@@ -17,6 +17,7 @@ namespace WebApiProjesi.Domain.Interfaces
         Task UpdateAsync(Book book);
         Task DeleteByIdAsync(Guid id);
         Task<IEnumerable<Book>> FindAsync(Expression<Func<Book, bool>> predicate);
+        Task<bool> AnyAsync(Expression<Func<Book, bool>> predicate);
         Task SaveChangesAsync();
     }
 }

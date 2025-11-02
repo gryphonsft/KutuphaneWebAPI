@@ -50,6 +50,10 @@ namespace WebApiProjesi.Infrastructure.Repositories
                 .Where(predicate)
                 .ToListAsync();
         }
+        public async Task<bool> AnyAsync(Expression<Func<Book, bool>> predicate)
+        {
+            return await _context.Book.AnyAsync(predicate);
+        }
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

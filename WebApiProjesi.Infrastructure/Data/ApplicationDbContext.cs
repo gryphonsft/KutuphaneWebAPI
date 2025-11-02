@@ -19,7 +19,7 @@ namespace WebApiProjesi.Infrastructure.Data
         }
 
         public DbSet<Book> Book { get; set; }
-        public DbSet<BookCopy> BookCopy { get; set; }
+        public DbSet<BookCopy> BookCopies { get; set; }
         public DbSet<Borrow> Borrow { get; set; }
         public DbSet<Logs> Logs { get; set; }
         
