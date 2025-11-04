@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApiProjesi.Application.DTOs.Respones;
 using WebApiProjesi.Application.Interfaces;
 using WebApiProjesi.Domain.Entities;
 using WebApiProjesi.Domain.Interfaces;
@@ -18,6 +19,25 @@ namespace WebApiProjesi.Application.Services
         {
             _bookCopyRepository = bookCopyRepository;
             _bookRepository = bookRepository;
+        }
+        public async Task<IEnumerable<BookCopy>> GetAllBookCopyAsync()
+        {
+           var response = await _bookCopyRepository.GetAllAsync();
+
+           return response;
+        }
+        public async Task<IEnumerable<BookCopyResponseDto>> GetAllBookCopyDetailsAsync()
+        {
+            var bookCopies = await _bookCopyRepository.GetAllDetailsAsync();
+
+            return bookCopies.Select(bc => new BookCopyResponseDto
+            {
+                Id = bc.Id,
+                Status = bc.Status.ToString(),
+                BookTitle = bc.Book.Title,
+                Author = bc.Book.AuthorName,
+                PageCount = bc.Book.PageCount
+            });
         }
         public async Task AddBookCopiesAsync(Guid bookId, int numberOfCopies)
         {

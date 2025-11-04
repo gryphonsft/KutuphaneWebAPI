@@ -19,13 +19,17 @@ namespace WebApiProjesi.Infrastructure.Repositories
         {
             _context = context;
         }
+        public async Task<IEnumerable<BookCopy>> GetAllAsync() => await _context.BookCopies.ToListAsync();
+        public async Task<IEnumerable<BookCopy>> GetAllDetailsAsync() => await _context.BookCopies
+            .Include(bc => bc.Book)
+            .ToListAsync();
         public async Task AddAsync(BookCopy bookCopy)
         {
            await _context.BookCopies.AddAsync(bookCopy);
         }
-        public async Task AddRangeAsync(IEnumerable<BookCopy> bookCopies)
+        public async Task AddRangeAsync(IEnumerable<BookCopy> bookCopy)
         {
-            await _context.BookCopies.AddRangeAsync(bookCopies);
+            await _context.BookCopies.AddRangeAsync(bookCopy);
         }
         public async Task<BookCopy?> GetByIdAsync(Guid id) => await _context.BookCopies.FindAsync(id);
         public async Task<int> CountAsync(Expression<Func<BookCopy, bool>> predicate)

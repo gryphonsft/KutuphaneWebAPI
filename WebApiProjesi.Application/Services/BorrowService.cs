@@ -61,7 +61,7 @@ namespace WebApiProjesi.Application.Services
 
             if (copyBook == null)
             {
-                throw new Exception("Kitap dosyasi bulunamadi");
+                throw new Exception("Kitap verisi bulunamadi");
             }
 
 
@@ -107,5 +107,9 @@ namespace WebApiProjesi.Application.Services
             };
             return response;
         }
+
+        // Kullanıcı bilgisine göre search metodu yazılacak.
+        // Hedef olarak bir kitap belirlenip, onu kimlerin ödünç aldığını listeleyen metod yazılacak.
+        //
     }
 }

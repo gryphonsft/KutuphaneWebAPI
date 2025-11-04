@@ -10,12 +10,10 @@ namespace WebApiProjesi.Domain.Entities
     // Kitapların fiziksel nüshalarının birden fazla olma durumundan dolayı, kitaplar buradan copy edilip borrow'a gitmeli.
     public sealed class BookCopy : Entity
     {
-        
         public Guid BookId { get; set; }
         public Book Book { get; set; }
 
         public BookStatus Status { get; set; }
-
         public ICollection<Borrow> Borrows { get; set; }  
     }
     public enum BookStatus

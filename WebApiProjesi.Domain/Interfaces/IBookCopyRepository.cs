@@ -10,7 +10,10 @@ namespace WebApiProjesi.Domain.Interfaces
 {
     public interface IBookCopyRepository
     {
-        Task AddRangeAsync(IEnumerable<BookCopy> bookCopies);
+        Task<IEnumerable<BookCopy>> GetAllAsync();
+        Task<IEnumerable<BookCopy>> GetAllDetailsAsync();
+        Task AddAsync(BookCopy bookCopy);
+        Task AddRangeAsync(IEnumerable<BookCopy> bookCopy);
         Task<BookCopy?> GetByIdAsync(Guid id);
         Task<int> CountAsync(Expression<Func<BookCopy, bool>> predicate);
         Task Update(BookCopy bookCopy);
