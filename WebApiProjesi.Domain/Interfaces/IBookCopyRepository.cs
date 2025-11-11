@@ -8,7 +8,7 @@ using WebApiProjesi.Domain.Entities;
 
 namespace WebApiProjesi.Domain.Interfaces
 {
-    public interface IBookCopyRepository
+    public interface IBookCopyRepository 
     {
         Task<IEnumerable<BookCopy>> GetAllAsync();
         Task<IEnumerable<BookCopy>> GetAllDetailsAsync();

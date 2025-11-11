@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApiProjesi.Application.DTOs.Requests;
 using WebApiProjesi.Application.DTOs.Respones;
 using WebApiProjesi.Application.Interfaces;
 using WebApiProjesi.Domain.Entities;
@@ -39,33 +40,31 @@ namespace WebApiProjesi.Application.Services
                 PageCount = bc.Book.PageCount
             });
         }
-        public async Task AddBookCopiesAsync(Guid bookId, int numberOfCopies)
+        public async Task AddBookCopiesAsync(CreateBookCopiesRequest request)
         {
-            var bookExists = await _bookRepository.AnyAsync(x => x.Id == bookId); 
+            if (request.numberOfCopies <= 0)
+                throw new ArgumentException("Kopya sayısı sıfırdan büyük olmalıdır.");
 
-            if(!bookExists)
-            {
-                throw new Exception("Belirtilen kitap bulunamadi.");
-            }
+            var bookExists = await _bookRepository.AnyAsync(x => x.Id == request.bookId);
+            if (!bookExists)
+                throw new InvalidOperationException("Belirtilen kitap bulunamadı.");
 
-            var existingCopies = await _bookCopyRepository.CountAsync(x => x.BookId == bookId);
-
-            if(existingCopies > 0)
-            {
-                throw new Exception("Bu kitap için zaten fiziksel kopyalar mevcut.");
-            }
+            var existingCopies = await _bookCopyRepository.CountAsync(x => x.BookId == request.bookId);
+            if (existingCopies > 0)
+                throw new InvalidOperationException("Bu kitap için zaten fiziksel kopyalar mevcut.");
 
             var copies = new List<BookCopy>();
-            for (int i = 0; i < numberOfCopies; i++)
+            for (int i = 0; i < request.numberOfCopies; i++)
             {
                 copies.Add(new BookCopy
                 {
-                    BookId = bookId
+                    BookId = request.bookId
                 });
             }
 
             await _bookCopyRepository.AddRangeAsync(copies);
             await _bookCopyRepository.SaveChangesAsync();
         }
+
     }
 }

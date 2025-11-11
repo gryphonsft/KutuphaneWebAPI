@@ -31,7 +31,12 @@ namespace WebApiProjesi.Infrastructure.Repositories
         {
             await _context.BookCopies.AddRangeAsync(bookCopy);
         }
-        public async Task<BookCopy?> GetByIdAsync(Guid id) => await _context.BookCopies.FindAsync(id);
+        public async Task<BookCopy?> GetByIdAsync(Guid id)
+        {
+            return await _context.BookCopies
+                 .Include(b => b.Book)
+                 .FirstOrDefaultAsync(b => b.Id == id); 
+        }
         public async Task<int> CountAsync(Expression<Func<BookCopy, bool>> predicate)
         {
             return await _context.BookCopies.CountAsync(predicate);
