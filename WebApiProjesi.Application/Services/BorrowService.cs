@@ -10,21 +10,23 @@ namespace WebApiProjesi.Application.Services
 {
     public class BorrowService : IBorrowService
     {
+        private readonly ILogService _logService;
+
         private readonly IBorrowRepository _borrowRepository;
-        private readonly ILogRepository _logRepository;
         private readonly IBookRepository _bookRepository;
         private readonly IBookCopyRepository _bookCopyRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
 
-        public BorrowService(IBorrowRepository borrowRepository,
-            ILogRepository logRepository, IBookRepository bookRepository,
+        public BorrowService(ILogService logService,
+            IBorrowRepository borrowRepository,           
+            IBookRepository bookRepository,
             IBookCopyRepository bookCopyRepository,
             UserManager<AppUser> userManager,
             IUnitOfWork unitOfWork)
         {
+            _logService = logService;
             _borrowRepository = borrowRepository;
-            _logRepository = logRepository;
             _bookRepository = bookRepository;
             _bookCopyRepository = bookCopyRepository;
             _userManager = userManager;
@@ -90,7 +92,7 @@ namespace WebApiProjesi.Application.Services
 
             copyBook.Status = BookStatus.Oduncte;
             await _bookCopyRepository.Update(copyBook);
-
+            await _logService.AddLogsAsync("Ödünç alımı",$"Ödünç alan kişi:{user.FullName} Ödünç alınan kitap:{copyBook.Book.Title}",AppLogLevel.Bilgi);
             await _unitOfWork.SaveChangesAsync();
 
             var response = new BorrowResponseDto
