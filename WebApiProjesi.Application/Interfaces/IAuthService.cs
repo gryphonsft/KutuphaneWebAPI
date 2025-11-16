@@ -6,7 +6,7 @@ namespace WebApiProjesi.Application.Interfaces
     public interface IAuthService
     {
         #region User authentication servisi
-        Task<(bool Success, string Message, Guid? UserId)> LoginAsync(LoginUserDto dto);
+        Task<(bool Success, string Message, Guid? UserId,string? Token)> LoginAsync(LoginUserDto dto);
         Task<(bool Success, string Message)> RegisterAsync(RegisterUserDto dto);
         #endregion
 

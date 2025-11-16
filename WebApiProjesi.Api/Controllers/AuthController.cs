@@ -21,16 +21,21 @@ namespace WebApiProjesi.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
-            var (success, message, userId) = await _authService.LoginAsync(dto);
+            var result = await _authService.LoginAsync(dto);
 
-            if (!success)
-                return Unauthorized(message);
+            if (!result.Success)
+                return BadRequest(result.Message);
 
-            return Ok(new { message, userId });
+            return Ok(new
+            {
+                token = result.Token,
+                userId = result.UserId,
+                message = result.Message
+            });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody]RegisterUserDto dto) 
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
         {
             var (success, message) = await _authService.RegisterAsync(dto);
 
