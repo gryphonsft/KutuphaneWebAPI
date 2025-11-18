@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Text;
 using WebApiProjesi.Application.Interfaces;
 using WebApiProjesi.Application.Services;
@@ -14,24 +14,6 @@ using WebApiProjesi.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
-            ),
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true
-        };
-    });
-
-
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -41,7 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString,
         x => x.MigrationsAssembly("WebApiProjesi.Infrastructure")));
 
-// Identity ayarlar�
+// Identity ayarları
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
     options.Password.RequiredLength = 3;
@@ -52,25 +34,50 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-//UnitOfWork DI kayd�
+// JWT Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]
+                ?? throw new InvalidOperationException("JWT Key is missing")))
+    };
+});
+
+builder.Services.AddAuthorization();
+
+// UnitOfWork DI kaydı
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Repository i�in DI kayd�
+// Repository için DI kaydı
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
-builder.Services.AddScoped<IBookCopyRepository,BookCopyRepository >();
-builder.Services.AddScoped<IBorrowRepository,BorrowRepository >();
+builder.Services.AddScoped<IBookCopyRepository, BookCopyRepository>();
+builder.Services.AddScoped<IBorrowRepository, BorrowRepository>();
 
-// Service i�in DI kayd�
+// Service için DI kaydı
 builder.Services.AddScoped<IBorrowService, BorrowService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBookCopyService, BookCopyService>();
 
-// Controllers ve tabiki partial update
+// Controllers ve partial update
 builder.Services.AddControllers()
-    .AddNewtonsoftJson(); 
+    .AddNewtonsoftJson();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -88,7 +95,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
+
+
+app.UseAuthentication();  
+app.UseAuthorization();  
 
 app.MapControllers();
 

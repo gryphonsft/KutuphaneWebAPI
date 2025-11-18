@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebApiProjesi.Application.Interfaces;
@@ -8,6 +9,7 @@ namespace WebApiProjesi.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class LogController : ControllerBase
     {
         private readonly ILogService _logService;

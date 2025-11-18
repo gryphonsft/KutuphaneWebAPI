@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Mvc;
 using WebApiProjesi.Application.DTOs.Requests;
 using WebApiProjesi.Application.Interfaces;
@@ -7,6 +8,7 @@ namespace WebApiProjesi.Api.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class BorrowController : ControllerBase
     {
         private readonly IBorrowService _borrowService;

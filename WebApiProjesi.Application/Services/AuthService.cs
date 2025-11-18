@@ -92,7 +92,7 @@ namespace WebApiProjesi.Application.Services
 
         #region Jwt oluşturma Servisi
 
-        private string GenerateJwtToken(AppUser user)
+        private string GenerateJwtToken(AppUser user)   
         {
             // Türkçe format.
 

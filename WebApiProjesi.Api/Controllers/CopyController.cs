@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiProjesi.Application.DTOs.Requests;
 using WebApiProjesi.Application.Interfaces;
-using WebApiProjesi.Application.Services;
-
 namespace WebApiProjesi.Api.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class CopyController : ControllerBase
     {
         private readonly IBookCopyService _bookCopyService;

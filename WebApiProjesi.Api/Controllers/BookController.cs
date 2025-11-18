@@ -1,14 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiProjesi.Application.DTOs.Requests;
 using WebApiProjesi.Application.DTOs.Respones;
 using WebApiProjesi.Application.Interfaces;
-using WebApiProjesi.Domain.Entities;
+
 
 namespace WebApiProjesi.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
+    [Authorize]
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
