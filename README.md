@@ -10,6 +10,20 @@ Bu proje, bir kütüphane yönetim sisteminin temel işlevlerini sağlayan moder
   * **Envanter Yönetimi:** Kitap kopyalarının detaylı takibi.
   * **Operasyonel İzleme:** Detaylı sistem loglarını seviye bazında sorgulama ve arama.
 
+## 🖼️ Projenin Görsel İçerikleri
+
+### Auth/Login ile kullanıcı girişi, JwtToken üretilmesi
+![](./img/authlogin.png)
+### Book/GetAll ile bütün kitapların sorgusu (JWT Auth)
+![](./img/bookgetall.png)
+### Book/GetAll ile bütün kitapların JWT'siz sorgusu (JWT Auth)
+![](./img/bookgetallwithoutjwt.png)
+### Log/GetAll ile bütün raporların sorgusu (JWT Auth)
+![](./img/getallLog.png)
+
+## Bütün endpointler
+![](./img/allEndPoint.png)
+
 ## 🛠️ Teknoloji Yığını ve Mimari
 
 Bu proje, aşağıdaki modern teknolojileri ve tasarım desenlerini kullanmaktadır:

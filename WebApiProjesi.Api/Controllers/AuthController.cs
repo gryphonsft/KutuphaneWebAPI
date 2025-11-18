@@ -28,8 +28,7 @@ namespace WebApiProjesi.Api.Controllers
 
             return Ok(new
             {
-                token = result.Token,
-                userId = result.UserId,
+                jwt = result.Token,
                 message = result.Message
             });
         }

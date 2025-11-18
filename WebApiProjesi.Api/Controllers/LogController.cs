@@ -7,7 +7,7 @@ using WebApiProjesi.Domain.Entities;
 
 namespace WebApiProjesi.Api.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     [Authorize]
     public class LogController : ControllerBase
