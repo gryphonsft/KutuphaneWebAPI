@@ -9,7 +9,11 @@ Bu proje, bir kütüphane yönetim sisteminin temel işlevlerini sağlayan moder
   * **Ödünç Takibi:** Kitapların ödünç alınma ve geri verme süreçlerinin yönetimi.
   * **Envanter Yönetimi:** Kitap kopyalarının detaylı takibi.
   * **Operasyonel İzleme:** Detaylı sistem loglarını seviye bazında sorgulama ve arama.
-
+## Projeyle ilgili izlediğim yollar
+* Sistemdeki kullanıcılar AppUser.cs sınıfı üzerinden barındırılırken, AppUser.cs sınıfı IdentityUser kütüphanesiyle kullanılmaktadır.
+* Kütüphanedeki kitapların üzerindeki işlemleri BookCopy nesnesi üzerinden gerçekleştiriyoruz. Aksi taktirde, Book.cs üzerinden gerçekleştirdiğimiz senaryoda, kullanıcılarla ilişkisel bağlantı kurulamıyor. Her bir kitap, Book.cs nesnesi üzerinde barınırken, BookCopy nesnesi üzerinde kitapların fiziksel nüshaları tutulmaktadır.
+* Kitapların fiziksel nüshaları sisteme kayıt edilirken (CopyService), istenilen kopya adeti parametre olarak verilip, döngü yardımıyla nüshalar oluşturuluyor.
+* Proje hali hazırda geliştirme aşamasında olduğu için E-Posta bildirim servisini henüz geliştirmedim fakat her bir aksiyon, Kayıt Servisi aracılığıyla sistemde tutulmaktadır. Kullanıcı girişleri, kullanıcı kayıtları. Hangi kitabın eklendiği ve hangi kitabın, kimin tarafından ödünç alındığı kaydedilmektedir. Sistemde herhangi bir ekleme, güncelleme veya silme işlemi yapıldığı zaman, yapılan işlemin yanında Log Seviyesi de kaydedilmektedir. Kısacası, olası durumların (silme,güncelleme) Log Seviyesi sayesinde yakalanıp, Yetkili kişinin E-Posta adresine bildirim şeklinde gönderilecektir. 
 ## 🖼️ Projenin Görsel İçerikleri
 
 ### Auth/Login ile kullanıcı girişi, JwtToken üretilmesi
